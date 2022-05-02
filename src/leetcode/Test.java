@@ -5,10 +5,10 @@ import java.util.List;
 public class Test {
     public static void main(String[] args) {
         Test test = new Test();
-        int[] val = {1,1,2,3,3};
+        int[] val = {1,1,2,3,3,3};
         ListNode head = test.build(val);
-        Num83_DeleteDuplicates remove = new Num83_DeleteDuplicates();
-        System.out.println(test.print(remove.deleteDuplicates(head)));
+        Num876_MiddleNode middle = new Num876_MiddleNode();
+        System.out.println(test.print(middle.middleNode(head)));
 
     }
 
