@@ -5,12 +5,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class MyStack<E> {
-    List<E> data = new ArrayList<>();
-
-    int size;
+    private List<E> data = new ArrayList<>();
+    private int size;
 
     /**
-     * 向栈顶插入元素
+     * 向栈顶压入元素
      * @param val
      */
     public void push(E val){
@@ -19,45 +18,44 @@ public class MyStack<E> {
     }
 
     /**
-     * 弹出栈顶元素
+     * 弹出栈顶元素，返回被弹出的元素值
      * @return
      */
     public E pop(){
         if(isEmpty()){
-            throw new NoSuchElementException("stack is empty! can not pop!");
+            throw new NoSuchElementException("stack is empty! cannot pop!");
         }
-        E ret = data.remove(size - 1);
+        E ret = peek();
+        data.remove(size - 1);
         size--;
         return ret;
     }
 
     /**
-     * 查看当前栈顶元素
+     * 查看栈顶元素
      * @return
      */
     public E peek(){
-        if (isEmpty()){
-            throw new NoSuchElementException("stack is empty! can not peek!");
+        if(isEmpty()){
+            throw new NoSuchElementException("stack is empty! cannot pook!");
         }
         return data.get(size - 1);
     }
-
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        for (int i = 0; i < size; i++) {
-            sb.append(data.get(i));
-            if(i < size - 1){
-                sb.append(", ");
-            }
-        }
-        sb.append("] top");
-        return sb.toString();
-    }
-
 
     public boolean isEmpty(){
         return size == 0;
     }
 
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < size; i++) {
+            sb.append(data.get(i));
+            if(i != size - 1){
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }

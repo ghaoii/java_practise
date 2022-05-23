@@ -6,6 +6,8 @@ public class StackTest {
         stack.push(10);
         stack.push(30);
         stack.push(50);
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
         System.out.println(stack);
     }
 }
