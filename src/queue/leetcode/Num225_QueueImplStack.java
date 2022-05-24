@@ -4,7 +4,7 @@ package queue.leetcode;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Num255_QueueImplStack {
+public class Num225_QueueImplStack {
     Queue<Integer> q1 = new LinkedList<>();
     Queue<Integer> q2 = new LinkedList<>();
 
