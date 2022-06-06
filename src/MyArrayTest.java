@@ -4,7 +4,7 @@ public class MyArrayTest {
         myArray.addLast(10);
         myArray.addLast(20);
         myArray.addLast(20);
-        myArray.addLast(20);
+        myArray.addLast(30);
         myArray.addLast(30);
         myArray.removeValAll(20);
 //        myArray.removeValOnce(1);
