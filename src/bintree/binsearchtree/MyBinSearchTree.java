@@ -6,88 +6,72 @@ public class MyBinSearchTree {
     private TreeNode root;
     private int size;
 
+    public MyBinSearchTree() {
 
-    public void add(int val){
-        root = add(root, val);
-        size++;
     }
 
     /**
-     * 传入一个一棵树的根结点和元素值val，就能在BST中插入val，并返回插入后的树根结点
-     * @param root
-     * @return
+     * 提供给用户使用的添加方法
+     * @param val 待插入元素
      */
-    private TreeNode add(TreeNode root, int val){
+    public void add(int val){
+        root = add(root, val);
+    }
+
+    /**
+     * 供内部使用的add方法 - 传入BST的根结点，就能将val插入正确位置，并返回插入后的树根结点
+     * @param root BST的根结点
+     * @param val 待插入元素
+     */
+    private TreeNode add(TreeNode root, int val) {
         if(root == null){
-            //如果根结点为空，直接返回新结点
-            return new TreeNode(val);
+            root = new TreeNode(val);
+            size++;
+            return root;
         }
         if(val < root.val){
             root.left = add(root.left, val);
-        }
-        if(val > root.val){
+        }else{
             root.right = add(root.right, val);
         }
         return root;
     }
 
+    /**
+     * 提供给用户使用的查询方法
+     * @param val
+     * @return
+     */
     public boolean contains(int val){
         if(size == 0){
             throw new NoSuchElementException("BST is empty! cannot search!");
         }
-        return contains(root, val);
+        return findVal(root, val) != null;
     }
 
     /**
-     * 传入一棵树的根结点和val，就能判断该BST是否包含val
+     * 内部使用的查询方法 - 传入BST的树根结点，就能找到val，并返回该结点
      * @param root
      * @param val
      * @return
      */
-    private boolean contains(TreeNode root, int val){
+    private TreeNode findVal(TreeNode root, int val){
         if(root == null){
-            return false;
+            return null;
         }
         if(val == root.val){
-            return true;
+            return root;
+        }else if(val < root.val){
+            return findVal(root.left, val);
+        }else{
+            return findVal(root.right, val);
         }
-        if(val < root.val){
-            return contains(root.left, val);
-        }
-        return contains(root.right, val);
-    }
-
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        generateBSTString(root, 0, sb);
-        return sb.toString();
     }
 
     /**
-     * 先序遍历打印BST
-     * @param root
-     * @param height
-     * @param sb
+     * 找到最小值
      * @return
      */
-    private void generateBSTString(TreeNode root, int height, StringBuilder sb){
-        if(root == null){
-            return;
-        }
-        //打印当前结点
-        sb.append(generateHeight(height)).append(root.val).append("\n");
-        generateBSTString(root.left, height + 1, sb );
-        generateBSTString(root.right, height + 1, sb );
-    }
-
-    private String generateHeight(int height){
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < height; i++) {
-            sb.append("--");
-        }
-        return sb.toString();
-    }
-
     public int findMin(){
         if(size == 0){
             throw new NoSuchElementException("BST is empty! cannot search!");
@@ -95,144 +79,170 @@ public class MyBinSearchTree {
         return min(root).val;
     }
 
-    /**
-     * 传入一颗BST的根结点，就能找到最小值，并返回其结点
-     * @param root
-     * @return
-     */
     private TreeNode min(TreeNode root){
         if(root.left == null){
-            //如果根结点没有左子树，那么根结点就是最小值
             return root;
         }
         return min(root.left);
     }
 
-    public int findMax(){
+    /**
+     * 找到最大值
+     * @return
+     */
+    public int findMax() {
         if(size == 0){
             throw new NoSuchElementException("BST is empty! cannot search!");
         }
         return max(root).val;
     }
 
-    /**
-     * 传入BST的根结点，就能找到大嘴值，并返回其结点
-     * @param root
-     * @return
-     */
     private TreeNode max(TreeNode root){
         if(root.right == null){
-            //如果根结点没有右子树，那么根结点本身就是最大值
             return root;
         }
         return max(root.right);
     }
 
-    public int removeMin(){
+    /**
+     * 删除最小值，并返回被删除元素的值
+     * @return
+     */
+    public int removaMin(){
         if(size == 0){
             throw new NoSuchElementException("BST is empty! cannot remove!");
         }
-        int min = min(root).val;
+        int ret = findMin();
         root = removeMin(root);
-        return min;
+        return ret;
     }
 
     /**
-     * 传入BST的根结点，就能删除BST中的最小值，并返回删除后的树根结点
+     * 内部删除最小值，传入树根结点，就能删除该树的最小值，返回删除后的树根结点
      * @param root
      * @return
      */
     private TreeNode removeMin(TreeNode root){
         if(root.left == null){
-            //如果根结点没有左子树，那么根结点本身就是待删除的最小值
+            //根结点就是待删除元素
             TreeNode node = root.right;
-            root.right = root = null;
-            size--;
+            root = root.right = null;
             return node;
         }
         root.left = removeMin(root.left);
         return root;
     }
 
+    /**
+     * 删除最大值，返回被删除元素的值
+     * @return
+     */
     public int removeMax(){
-        if(size == 0){
-            throw new NoSuchElementException("BST is empty! cannot remove!");
-        }
-        int max = max(root).val;
+        int ret = findMax();
         root = removeMax(root);
-        return max;
+        return ret;
     }
 
     /**
-     * 传入BST的根结点，就能删除BST中的最大值，并返回删除后的树根结点
+     * 内部删除最大值，传入树根结点，就能删除该树的最大值，返回删除后的树根结点
      * @param root
      * @return
      */
     private TreeNode removeMax(TreeNode root){
         if(root.right == null){
-            //此时根结点就是最大值
             TreeNode node = root.left;
-            root.left = root = null;
-            size--;
+            root = root.left = null;
             return node;
         }
         root.right = removeMax(root.right);
         return root;
     }
 
-    public void remove(int val){
+    /**
+     * 供用户使用的删除方法，返回被删除元素的值
+     * @param val
+     * @return
+     */
+    public int remove(int val){
         if(size == 0){
             throw new NoSuchElementException("BST is empty! cannot remove!");
         }
+        TreeNode ret = findVal(root, val);
+        if(ret == null){
+
+        }
         root = remove(root, val);
+        return ret.val;
     }
 
     /**
-     * 传入BST的根结点和待删除元素val，就能删除BST中的val，并返回删除后的树根结点
+     * 传入一颗BST的树根结点，就能删除val，并返回删除后的BST的树根结点
      * @param root
      * @param val
      * @return
      */
-    private TreeNode remove(TreeNode root, int val){
+    private TreeNode remove(TreeNode root, int val) {
         if(root == null){
-            //走到null的时候，说明遍历完BST了，也没有找到val，即val不存在
-            throw new NoSuchElementException("val does not exist! cannot remove!");
+            throw new NoSuchElementException("val does not exists!");
         }
-        if(root.val == val){
-            //根结点就是待删除元素
-            if(root.left == null){
-                //类似于删除最小值
-                TreeNode node = root.right;
-                root.right = root = null;
-                size--;
-                return node;
-            }
-            if(root.right == null){
-                //类似于删除最大值
-                TreeNode node = root.left;
-                root.left = root = null;
-                size--;
-                return node;
-            }
-            //此时左右子树都存在，则需要找到继承者(前驱或这后继都可以)
-            TreeNode successor = max(root.left);
-            //1. 删除继承者原来的位置，并连接左子树
-            successor.left = removeMax(root.left);
-            //2. 连接右子树
-            successor.right = root.right;
-            //3. 垃圾回收，并返回删除后的根结点
-            root.left = root.right = root = null;
-            return successor;
+        if(val == root.val && root.left == null){
+            //类似于删最小值
+            TreeNode node = root.right;
+            root = root.right = null;
+            return node;
         }
-        //此时根结点不是待删除元素
+        if(val == root.val && root.right == null){
+            //类似于删最大值
+            TreeNode node = root.left;
+            root = root.left = null;
+            return node;
+        }
+        if(val == root.val){
+            TreeNode node = max(root.left);
+            node.left = removeMax(root.left);
+            node.right = root.right;
+            root = root.left = root.right = null;
+            return node;
+        }
+        //当前根结点不是待删除元素
         if(val < root.val){
-            //把左子树的删除交给子函数
             root.left = remove(root.left, val);
-            return root;
+        }else{
+            root.right = remove(root.right, val);
         }
-        //此时，val肯定小于根结点，因此把右子树的删除交给子函数
-        root.right = remove(root.right, val);
         return root;
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        generateBSTString(root, 0, sb);
+        return sb.toString();
+    }
+
+    /**
+     * 传入BST的树根结点和高度，将BST构建好
+     * @param root
+     * @param height
+     * @param sb
+     */
+    private void generateBSTString(TreeNode root, int height, StringBuilder sb) {
+        if(root == null){
+            sb.append(generateHeight(height)).append("NULL\n");
+            return;
+        }
+        sb.append(generateHeight(height)).append(root.val);
+        sb.append("\n");
+        generateBSTString(root.left, height + 1, sb);
+        generateBSTString(root.right, height + 1, sb);
+    }
+
+    private String generateHeight(int height) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < height; i++) {
+            sb.append("--");
+        }
+        return sb.toString();
+    }
+
 
 }

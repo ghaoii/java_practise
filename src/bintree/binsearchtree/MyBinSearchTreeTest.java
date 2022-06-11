@@ -11,7 +11,11 @@ public class MyBinSearchTreeTest {
         bst.add(25);
         bst.add(31);
         bst.add(9);
-        bst.remove(15);
+        bst.add(23);
+        bst.add(27);
+        bst.add(30);
+        bst.add(40);
+        System.out.println(bst.remove(28));
         System.out.println(bst);
     }
 }
