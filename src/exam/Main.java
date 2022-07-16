@@ -2,27 +2,237 @@ package exam;
 
 import java.util.*;
 
-// 连续最大和
+// 密码强度等级
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        while(scanner.hasNextInt()) {
-            int n  = scanner.nextInt();
-            int[] num = new int[n];
-            for (int i = 0; i < n; i++) {
-                num[i] = scanner.nextInt();
+        while(scanner.hasNextLine()) {
+            String str = scanner.nextLine();
+            int sum1 = lenScore(str);
+            int sum2 = letterScore(str);
+            int sum3 = numScore(str);
+            int sum4 = symbolScore(str);
+
+            int score = sum1 + sum2 + sum3 + sum4;
+            if(sum2 == 20 && sum3 > 0 && sum4 > 0) {
+                score += 5;
+            }else if(sum2 > 0 && sum3 > 0 && sum4 > 0) {
+                score += 3;
+            }else if(sum2 > 0 && sum3 > 0) {
+                score += 2;
             }
 
-            int sum = num[0];
-            int max = num[0];
-            for (int i = 1; i < n; i++) {
-                sum = Math.max(sum + num[i], num[i]);
-                max = Math.max(max, sum);
+            if(score >= 90) {
+                System.out.println("VERY_SECURE");
+            }else if(score >= 80) {
+                System.out.println("SECURE");
+            }else if(score >= 70) {
+                System.out.println("VERY_STRONG");
+            }else if(score >= 60) {
+                System.out.println("STRONG");
+            }else if(score >= 50) {
+                System.out.println("AVERAGE");
+            }else if(score >= 25) {
+                System.out.println("WEAK");
+            }else {
+                System.out.println("VERY_WEAK");
             }
-            System.out.println(max);
+        }
+    }
+
+    private static int symbolScore(String str) {
+        char[] ch = str.toCharArray();
+        int count = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if(ch[i] >= 0x21 && ch[i] <= 0x2F) {
+                count++;
+            }else if(ch[i] >= 0x3A && ch[i] <= 0x40) {
+                count++;
+            }else if(ch[i] >= 0x5B && ch[i] <= 0x60) {
+                count++;
+            }else if(ch[i] >= 0x7B && ch[i] <= 0x7E) {
+                count++;
+            }
+
+            if(count == 2) {
+                return 20;
+            }
+        }
+        return count == 1 ? 10 : 0;
+    }
+
+    private static int numScore(String str) {
+        char[] ch = str.toCharArray();
+        int count = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if(ch[i] >= '0' && ch[i] <= '9') {
+                count++;
+            }
+            if(count == 2) {
+                return 20;
+            }
+        }
+        return count == 1 ? 10 : 0;
+    }
+
+    private static int letterScore(String str) {
+        char[] ch = str.toCharArray();
+        boolean lowerCase = false;
+        boolean upperCase = false;
+        for (int i = 0; i < ch.length; i++) {
+            if(!lowerCase && ch[i] >= 'a' && ch[i] <= 'z') {
+                lowerCase = true;
+            }
+            if(!upperCase && ch[i] >= 'A' && ch[i] <= 'Z') {
+                upperCase = true;
+            }
+        }
+        if(lowerCase && upperCase) {
+            return 20;
+        }else if (lowerCase || upperCase) {
+            return 10;
+        }
+        return 0;
+    }
+
+    private static int lenScore(String str) {
+        int len = str.length();
+        if(len <= 4) {
+            return 5;
+        }else if(len <= 7) {
+            return 10;
+        }else {
+            return 25;
         }
     }
 }
+
+// 走方格的方案数
+//public class Main {
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNextLine()) {
+//            int n = scanner.nextInt();
+//            int m = scanner.nextInt();
+//            int[][] dp = new int[m + 1][n + 1];
+//            dp[0][0] = 1;
+//            for (int i = 0; i <= m; i++) {
+//                for (int j = 0; j <= n; j++) {
+//                    if(i > 0) {
+//                        dp[i][j] += dp[i - 1][j];
+//                    }
+//                    if(j > 0) {
+//                        dp[i][j] += dp[i][j - 1];
+//                    }
+//                }
+//            }
+//            System.out.println(dp[m][n]);
+//        }
+//    }
+//}
+
+// 最小公倍数
+//public class Main {
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        int a = scanner.nextInt();
+//        int b = scanner.nextInt();
+//        int mul = a * b;
+//        while(b > 0) {
+//            int temp = b;
+//            b = a % b;
+//            a = temp;
+//        }
+//        System.out.println(mul / a);
+//    }
+//}
+
+// 两种排序方法
+//public class Main {
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNextInt()) {
+//            int n = scanner.nextInt();
+//            scanner.nextLine();
+//            String[] words = new String[n];
+//            for (int i = 0; i < n; i++) {
+//                words[i] = scanner.nextLine();
+//            }
+//
+//            boolean a = lexSequence(n, words);
+//            boolean b = lenSequence(n, words);
+//
+//            if(a && b) {
+//                System.out.println("both");
+//            }else if(a) {
+//                System.out.println("lexicographically");
+//            }else if(b) {
+//                System.out.println("lengths");
+//            }else {
+//                System.out.println("none");
+//            }
+//        }
+//    }
+//
+//    private static boolean lexSequence(int n, String[] words) {
+//        for (int i = 0; i < n - 1; i++) {
+//            if(words[i].compareTo(words[i + 1]) > 0) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
+//
+//    private static boolean lenSequence(int n, String[] words) {
+//        for (int i = 0; i < n - 1; i++) {
+//            if(words[i].length() > words[i + 1].length()) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
+//}
+
+// fibonacci
+//public class Main {
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNextInt()) {
+//            int n = scanner.nextInt();
+//            int a = 0;
+//            int b = 1;
+//            while(b < n) {
+//                int temp = b;
+//                b += a;
+//                a = temp;
+//            }
+//            int ret = Math.min(n - a, b - n);
+//            System.out.println(ret);
+//        }
+//    }
+//}
+
+// 连续最大和
+//public class Main {
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNextInt()) {
+//            int n  = scanner.nextInt();
+//            int[] num = new int[n];
+//            for (int i = 0; i < n; i++) {
+//                num[i] = scanner.nextInt();
+//            }
+//
+//            int sum = num[0];
+//            int max = num[0];
+//            for (int i = 1; i < n; i++) {
+//                sum = Math.max(sum + num[i], num[i]);
+//                max = Math.max(max, sum);
+//            }
+//            System.out.println(max);
+//        }
+//    }
+//}
 
 // 统计回文
 //public class Main {
