@@ -2,110 +2,290 @@ package exam;
 
 import java.util.*;
 
-// 密码强度等级
+// 跳石板
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        while(scanner.hasNextLine()) {
-            String str = scanner.nextLine();
-            int sum1 = lenScore(str);
-            int sum2 = letterScore(str);
-            int sum3 = numScore(str);
-            int sum4 = symbolScore(str);
-
-            int score = sum1 + sum2 + sum3 + sum4;
-            if(sum2 == 20 && sum3 > 0 && sum4 > 0) {
-                score += 5;
-            }else if(sum2 > 0 && sum3 > 0 && sum4 > 0) {
-                score += 3;
-            }else if(sum2 > 0 && sum3 > 0) {
-                score += 2;
+        while(scanner.hasNextInt()) {
+            int n = scanner.nextInt();
+            int m = scanner.nextInt();
+            int[] dp = new int[m + 1];
+            for (int i = 0; i < dp.length; i++) {
+                dp[i] = Integer.MAX_VALUE;
             }
+            // 初始化：第一块石板不需要移动就能到达
+            dp[n] = 0;
+            for (int i = n; i <= m; i++) {
+                // 如果当前位置保存了MAX_VALUE，说明这个位置无法到达
+                if(dp[i] == Integer.MAX_VALUE) {
+                    continue;
+                }
+                List<Integer> list = div(i);
+                for(int j : list) {
+                    if(i + j <= m) {
+                        dp[i + j] = Math.min(dp[i + j], dp[i]);
+                    }
+                }
 
-            if(score >= 90) {
-                System.out.println("VERY_SECURE");
-            }else if(score >= 80) {
-                System.out.println("SECURE");
-            }else if(score >= 70) {
-                System.out.println("VERY_STRONG");
-            }else if(score >= 60) {
-                System.out.println("STRONG");
-            }else if(score >= 50) {
-                System.out.println("AVERAGE");
-            }else if(score >= 25) {
-                System.out.println("WEAK");
-            }else {
-                System.out.println("VERY_WEAK");
             }
+            int ret = dp[m] == Integer.MAX_VALUE ? -1 : dp[m];
+            System.out.println(ret);
         }
     }
 
-    private static int symbolScore(String str) {
-        char[] ch = str.toCharArray();
-        int count = 0;
-        for (int i = 0; i < str.length(); i++) {
-            if(ch[i] >= 0x21 && ch[i] <= 0x2F) {
-                count++;
-            }else if(ch[i] >= 0x3A && ch[i] <= 0x40) {
-                count++;
-            }else if(ch[i] >= 0x5B && ch[i] <= 0x60) {
-                count++;
-            }else if(ch[i] >= 0x7B && ch[i] <= 0x7E) {
-                count++;
+    private static List<Integer> div(int num) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 2; i <= Math.sqrt(num); i++) {
+            if(num % i == 0) {
+                list.add(i);
             }
-
-            if(count == 2) {
-                return 20;
+            if(i * i != num) {
+                list.add(num / i);
             }
         }
-        return count == 1 ? 10 : 0;
+        return list;
     }
 
-    private static int numScore(String str) {
-        char[] ch = str.toCharArray();
-        int count = 0;
-        for (int i = 0; i < str.length(); i++) {
-            if(ch[i] >= '0' && ch[i] <= '9') {
-                count++;
-            }
-            if(count == 2) {
-                return 20;
-            }
-        }
-        return count == 1 ? 10 : 0;
-    }
-
-    private static int letterScore(String str) {
-        char[] ch = str.toCharArray();
-        boolean lowerCase = false;
-        boolean upperCase = false;
-        for (int i = 0; i < ch.length; i++) {
-            if(!lowerCase && ch[i] >= 'a' && ch[i] <= 'z') {
-                lowerCase = true;
-            }
-            if(!upperCase && ch[i] >= 'A' && ch[i] <= 'Z') {
-                upperCase = true;
-            }
-        }
-        if(lowerCase && upperCase) {
-            return 20;
-        }else if (lowerCase || upperCase) {
-            return 10;
-        }
-        return 0;
-    }
-
-    private static int lenScore(String str) {
-        int len = str.length();
-        if(len <= 4) {
-            return 5;
-        }else if(len <= 7) {
-            return 10;
-        }else {
-            return 25;
-        }
-    }
 }
+
+// 参数解析
+//public class Main {
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNextLine()) {
+//            String str = scanner.nextLine();
+//            char[] ch = str.toCharArray();
+//            int count = 0;
+//            // 统计引号外的空格数
+//            for (int i = 0; i < ch.length; i++) {
+//                // 碰到双引号的时候直接跳到下一个双引号右边
+//                if(ch[i] == '"') {
+//                    i++;
+//                    while(ch[i] != '"') {
+//                        i++;
+//                    }
+//                    continue;
+//                }
+//                // 碰到空格就让计数器加一
+//                if(ch[i] == ' ') {
+//                    count++;
+//                }
+//            }
+//            // 参数的个数就是空格数加一
+//            System.out.println(count + 1);
+//
+//            // 输出参数
+//            int flag = 0;
+//            for (int i = 0; i < ch.length; i++) {
+//                // flag为0则说明在引号外，为1则说明在引号内
+//                if(ch[i] == '"') {
+//                    flag ^= 1;
+//                    continue;
+//                }
+//                if(ch[i] == ' ' && flag == 0) {
+//                    // 引号外的空格，换行后跳过
+//                    System.out.println();
+//                    continue;
+//                }
+//
+//                System.out.print(ch[i]);
+//            }
+//        }
+//    }
+//}
+
+//  查找组成一个偶数最接近的两个素数
+//public class Main {
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNextInt()) {
+//            int n = scanner.nextInt();
+//            // 想要找到素数差值最小的素数对，就从中间开始找起
+//            // 也就是分别距离n两边最近的两个素数
+//            for (int i = n / 2; i < n; i++) {
+//                if(isPrime(i) && isPrime(n - i)) {
+//                    System.out.println(n - i);
+//                    System.out.println(i);
+//                    break;
+//                }
+//            }
+//        }
+//    }
+//
+//    private static boolean isPrime(int n) {
+//        for (int i = 2; i < Math.sqrt(n); i++) {
+//            if(n % i == 0) {
+//                return false;
+//            }
+//        }
+//        return false;
+//    }
+//}
+
+//public class Main {
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNextInt()) {
+//            int n = scanner.nextInt();
+//            // 位运算解决问题
+//            int k = 0;
+//            // 每一次消去二进制中1个连续的'1'，循环走了几次，连续的'1'就有几个
+//            for(; n > 0; k++) {
+//                n = n & (n << 1);
+//            }
+//            System.out.println(k);
+//
+//            // 简单解法
+////            int max = 1;
+////            int count = 0;
+////            while(n > 0) {
+////                if((n & 1) == 1) {
+////                    // 说明该为是1
+////                    count++;
+////                    max = Math.max(max, count);
+////                }else {
+////                    // 该为不是1，重置count
+////                    count = 0;
+////                }
+////                n = n >> 1;
+////            }
+////            System.out.println(max);
+//        }
+//    }
+//}
+
+//public class Main {
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNextLine()) {
+//            String str1 = scanner.nextLine();
+//            String str2 = scanner.nextLine();
+//            String ret = "";
+//
+//            // 始终让让str1指向较短的字符串
+//                if(str1.length() > str2.length()) {
+//                    String temp = str1;
+//                    str1 = str2;
+//                    str2 = temp;
+//                }
+//
+//            for(int i = 0; i < str1.length(); i++) {
+//                for(int j = 0; j <= i; j++) {
+//                    String temp = str1.substring(j, i + 1);
+//                    if(str2.contains(temp)) {
+//                        ret = temp.length() > ret.length() ? temp : ret;
+//                    }
+//                }
+//            }
+//            System.out.println(ret);
+//        }
+//    }
+//}
+
+// 密码强度等级
+//public class Main {
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNextLine()) {
+//            String str = scanner.nextLine();
+//            int sum1 = lenScore(str);
+//            int sum2 = letterScore(str);
+//            int sum3 = numScore(str);
+//            int sum4 = symbolScore(str);
+//
+//            int score = sum1 + sum2 + sum3 + sum4;
+//            if(sum2 == 20 && sum3 > 0 && sum4 > 0) {
+//                score += 5;
+//            }else if(sum2 > 0 && sum3 > 0 && sum4 > 0) {
+//                score += 3;
+//            }else if(sum2 > 0 && sum3 > 0) {
+//                score += 2;
+//            }
+//
+//            if(score >= 90) {
+//                System.out.println("VERY_SECURE");
+//            }else if(score >= 80) {
+//                System.out.println("SECURE");
+//            }else if(score >= 70) {
+//                System.out.println("VERY_STRONG");
+//            }else if(score >= 60) {
+//                System.out.println("STRONG");
+//            }else if(score >= 50) {
+//                System.out.println("AVERAGE");
+//            }else if(score >= 25) {
+//                System.out.println("WEAK");
+//            }else {
+//                System.out.println("VERY_WEAK");
+//            }
+//        }
+//    }
+//
+//    private static int symbolScore(String str) {
+//        char[] ch = str.toCharArray();
+//        int count = 0;
+//        for (int i = 0; i < str.length(); i++) {
+//            if(ch[i] >= 0x21 && ch[i] <= 0x2F) {
+//                count++;
+//            }else if(ch[i] >= 0x3A && ch[i] <= 0x40) {
+//                count++;
+//            }else if(ch[i] >= 0x5B && ch[i] <= 0x60) {
+//                count++;
+//            }else if(ch[i] >= 0x7B && ch[i] <= 0x7E) {
+//                count++;
+//            }
+//
+//            if(count == 2) {
+//                return 20;
+//            }
+//        }
+//        return count == 1 ? 10 : 0;
+//    }
+//
+//    private static int numScore(String str) {
+//        char[] ch = str.toCharArray();
+//        int count = 0;
+//        for (int i = 0; i < str.length(); i++) {
+//            if(ch[i] >= '0' && ch[i] <= '9') {
+//                count++;
+//            }
+//            if(count == 2) {
+//                return 20;
+//            }
+//        }
+//        return count == 1 ? 10 : 0;
+//    }
+//
+//    private static int letterScore(String str) {
+//        char[] ch = str.toCharArray();
+//        boolean lowerCase = false;
+//        boolean upperCase = false;
+//        for (int i = 0; i < ch.length; i++) {
+//            if(!lowerCase && ch[i] >= 'a' && ch[i] <= 'z') {
+//                lowerCase = true;
+//            }
+//            if(!upperCase && ch[i] >= 'A' && ch[i] <= 'Z') {
+//                upperCase = true;
+//            }
+//        }
+//        if(lowerCase && upperCase) {
+//            return 20;
+//        }else if (lowerCase || upperCase) {
+//            return 10;
+//        }
+//        return 0;
+//    }
+//
+//    private static int lenScore(String str) {
+//        int len = str.length();
+//        if(len <= 4) {
+//            return 5;
+//        }else if(len <= 7) {
+//            return 10;
+//        }else {
+//            return 25;
+//        }
+//    }
+//}
 
 // 走方格的方案数
 //public class Main {
