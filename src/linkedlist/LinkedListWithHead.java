@@ -1,16 +1,16 @@
 package linkedlist;
 
 public class LinkedListWithHead {
-    Node dummyHead = new Node();
+    ListNode dummyHead = new ListNode();
     int size = 0;
 
     public String toString(){
-        Node node = dummyHead.next;
+        ListNode listNode = dummyHead.next;
         String ret = "";
-        while(node != null){
-            ret += node.val;
+        while(listNode != null){
+            ret += listNode.val;
             ret += "->";
-            node = node.next;
+            listNode = listNode.next;
         }
         ret += "NULL";
         return ret;
@@ -27,17 +27,17 @@ public class LinkedListWithHead {
 
     //头插
     public void addFirst(int val){
-        dummyHead.next = new Node(val, dummyHead.next);
+        dummyHead.next = new ListNode(val, dummyHead.next);
         size++;
     }
 
     //向链表中索引为index的位置插入结点
     public void add(int index, int val){
-        Node prev = dummyHead;
+        ListNode prev = dummyHead;
         for (int i = 0; i < index; i++) {
             prev = prev.next;
         }
-        prev.next = new Node(val, prev.next);
+        prev.next = new ListNode(val, prev.next);
         size++;
     }
 
@@ -55,22 +55,22 @@ public class LinkedListWithHead {
         if(!rangeCheck(index)){
             System.out.println("get index illegal");
         }
-        Node node = dummyHead.next;
+        ListNode listNode = dummyHead.next;
         for (int i = 0; i < index; i++) {
-            node = node.next;
+            listNode = listNode.next;
         }
-        return node.val;
+        return listNode.val;
     }
 
     //找出链表中第一个元素值为val的索引，否则返回-1
     public int getByVal(int val){
-        Node node = dummyHead.next;
+        ListNode listNode = dummyHead.next;
         int num = 0;
-        while(node != null){
-            if(node.val == val){
+        while(listNode != null){
+            if(listNode.val == val){
                 return num;
             }
-            node = node.next;
+            listNode = listNode.next;
             num++;
         }
         return -1;
@@ -91,12 +91,12 @@ public class LinkedListWithHead {
             System.out.println("set index illegal");
             return -1;
         }
-        Node node = dummyHead.next;
+        ListNode listNode = dummyHead.next;
         for (int i = 0; i < index; i++) {
-            node = node.next;
+            listNode = listNode.next;
         }
-        int oldVal = node.val;
-        node.val = newVal;
+        int oldVal = listNode.val;
+        listNode.val = newVal;
         return oldVal;
     }
 
@@ -114,13 +114,13 @@ public class LinkedListWithHead {
             System.out.println("remove index illegal");
             return;
         }
-        Node prev = dummyHead;
+        ListNode prev = dummyHead;
         for (int i = 0; i < index; i++) {
             prev = prev.next;
         }
-        Node node = prev.next;
-        prev.next = node.next;
-        node.next = null;
+        ListNode listNode = prev.next;
+        prev.next = listNode.next;
+        listNode.next = null;
         size--;
     }
 
@@ -138,12 +138,12 @@ public class LinkedListWithHead {
             System.out.println("LinkedList is empty");
             return;
         }
-        Node prev = dummyHead;
+        ListNode prev = dummyHead;
         while(prev.next != null){
             if(prev.next.val == val){
-                Node node = prev.next;
-                prev.next = node.next;
-                node.next = null;
+                ListNode listNode = prev.next;
+                prev.next = listNode.next;
+                listNode.next = null;
                 size--;
                 return;
             }
@@ -158,12 +158,12 @@ public class LinkedListWithHead {
             System.out.println("LinkedList is empty");
             return;
         }
-        Node prev = dummyHead;
+        ListNode prev = dummyHead;
         while(prev.next != null){
             if(prev.next.val == val){
-                Node node = prev.next;
-                prev.next = node.next;
-                node.next = null;
+                ListNode listNode = prev.next;
+                prev.next = listNode.next;
+                listNode.next = null;
                 size--;
             }else{
                 prev = prev.next;

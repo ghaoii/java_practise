@@ -4,17 +4,17 @@ package linkedlist;
 /**
  * 链表的结点定义
  */
-public class Node {
+public class ListNode {
     int val;
-    Node next;
+    ListNode next;
 
-    public Node(){}
+    public ListNode(){}
 
-    public Node(int val){
+    public ListNode(int val){
         this.val = val;
     }
 
-    public Node(int val, Node next){
+    public ListNode(int val, ListNode next){
         this(val);
         this.next = next;
     }
