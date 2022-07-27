@@ -9,10 +9,10 @@ public class Test {
         linkedListNoHead.add(10);
         linkedListNoHead.add(20);
         linkedListNoHead.add(30);
-//        linkedListNoHead.removeValAll(20);
+//        linkedListNoHead.removeByValAll(30);
 //        System.out.println(linkedListNoHead.removeByVal(20));
 //        System.out.println(linkedListNoHead.remove(5));
-//        System.out.println(linkedListNoHead.set(1, 200));
+        System.out.println(linkedListNoHead.set(1, 200));
 //        System.out.println(linkedListNoHead.contains(30));
 //        System.out.println(linkedListNoHead.getByVal(40));
 //        System.out.println(linkedListNoHead.get(0));

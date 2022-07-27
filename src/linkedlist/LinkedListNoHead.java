@@ -87,6 +87,20 @@ public class LinkedListNoHead {
         return -1;
     }
 
+    public int set(int index, int val) {
+        if(!indexInRound(index)) {
+            throw new IndexOutOfBoundsException("index is illegal! cannot change value!");
+        }
+        int ret = 0;
+        ListNode node = head;
+        for (int i = 0; i < index; i++) {
+            node = node.next;
+        }
+        ret = node.val;
+        node.val = val;
+        return ret;
+    }
+
     public int remove(int index) {
         if(!indexInRound(index)) {
             throw new IndexOutOfBoundsException("index is not illegal! cannot remove!");
@@ -146,9 +160,38 @@ public class LinkedListNoHead {
         return false;
     }
 
-//    public boolean removeByValAll(int val) {
-//
-//    }
+    public boolean removeByValAll(int val) {
+        if(isEmpty()) {
+            throw new NoSuchElementException("LinkedList is empty! cannot remove!");
+        }
+        boolean flag = false;
+        while(head != null && head.val == val) {
+            ListNode node = head;
+            head = head.next;
+            node.next = null;
+            size--;
+            flag = true;
+        }
+        // 整个链表都是待删除元素
+        if(isEmpty()) {
+            return flag;
+        }
+        ListNode prev = head;
+        while(prev.next != null) {
+            while(prev.next != null && prev.next.val == val) {
+                ListNode node = prev.next;
+                prev.next = node.next;
+                node.next = null;
+                size--;
+                flag = true;
+            }
+            if(prev.next == null) {
+                return flag;
+            }
+            prev = prev.next;
+        }
+        return flag;
+    }
 
     public String toString() {
         ListNode node = head;

@@ -4,12 +4,8 @@ import java.util.List;
 
 public class Test {
     public static void main(String[] args) {
-        Test test = new Test();
-        int[] val = {1,1,2,3,3,3};
-        ListNode head = test.build(val);
-        Num876_MiddleNode middle = new Num876_MiddleNode();
-        System.out.println(test.print(middle.middleNode(head)));
-
+        Num96_NumTrees test = new Num96_NumTrees();
+        System.out.println(test.numTrees(3));;
     }
 
     public ListNode build(int[] val){
