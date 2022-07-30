@@ -10,8 +10,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Test {
     public static void main(String[] args) {
         int a = 10;
-        double b = 3.14;
-        System.out.println(a + b + "a");
+        Integer b = 10;
+        Integer c = Integer.valueOf(10);
+        Integer d = new Integer(10);
+        System.out.println(b.equals(d));
     }
 }
 
