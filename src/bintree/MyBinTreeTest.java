@@ -4,6 +4,7 @@ public class MyBinTreeTest {
     public static void main(String[] args) {
         MyBinTree<Integer> binTree = new MyBinTree<>();
         binTree.build();
+        binTree.postOrderNonRecursion(binTree.root);
         System.out.println("结点个数为：" + binTree.getNodesNonRecursion(binTree.root));
         System.out.println("叶子结点的个数为：" + binTree.getLeafNodesNonRecursion(binTree.root));
         System.out.println("第3层的结点个数为：" + binTree.getKLevelNodeNonRecursion(binTree.root, 3));

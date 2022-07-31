@@ -5,16 +5,6 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
-class TreeNode<E>{
-    E val;
-    TreeNode<E> left;
-    TreeNode<E> right;
-
-    public TreeNode(E val) {
-        this.val = val;
-    }
-}
-
 public class MyBinTree<E> {
     TreeNode<Integer> root;
 

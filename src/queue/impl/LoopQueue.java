@@ -7,27 +7,27 @@ import java.util.Arrays;
 
 public class LoopQueue implements Queue<Integer> {
     private Integer[] data;
+
     private int head;
+
     private int tail;
 
-    public LoopQueue(){
+    int size;
+
+    public LoopQueue() {
         this(10);
     }
 
     public LoopQueue(int size) {
-        data = new Integer[size];
+        data = new Integer[size + 1];
     }
 
     @Override
     public void offer(Integer val) {
-        if(isFull()){
+        if((tail + 1) % data.length == head) {
             throw new ArrayIndexOutOfBoundsException("queue is full! cannot offer!");
         }
-        if(isEmpty()){
-            data[head] = val;
-        }else{
-            data[tail] = val;
-        }
+        data[tail] = val;
         tail = (tail + 1) % data.length;
     }
 
@@ -38,7 +38,7 @@ public class LoopQueue implements Queue<Integer> {
 
     @Override
     public Integer poll() {
-        Integer ret = data[head];
+        int ret = data[head];
         head = (head + 1) % data.length;
         return ret;
     }
@@ -48,22 +48,18 @@ public class LoopQueue implements Queue<Integer> {
         return head == tail;
     }
 
-    public boolean isFull(){
-        return (tail + 1) % data.length == head;
-    }
-
-    public String toString(){
-        //int tmp = head;
+    public String toString() {
         StringBuilder sb = new StringBuilder();
-        int lastOps = tail == 0? data.length - 1 : tail - 1;
-        sb.append("[");
-        for(int tmp = head; tmp != tail; tmp = (tmp + 1) % data.length){
-            sb.append(data[tmp]);
-            if(tmp != lastOps){
+        sb.append("head [ ");
+        int lastIndex = tail == 0 ? data.length - 1 : tail - 1;
+        for(int i = head; i != tail; ) {
+            sb.append(data[i]);
+            if(i != lastIndex) {
                 sb.append(", ");
             }
+            i = (i + 1) % data.length;
         }
-        sb.append("]");
+        sb.append(" ] tail");
         return sb.toString();
     }
 }
