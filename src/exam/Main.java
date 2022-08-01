@@ -3,9 +3,75 @@ package exam;
 import java.util.*;
 
 public class Main {
+
     public static void main(String[] args) {
-        return;
+        Scanner scanner = new Scanner(System.in);
+        while(scanner.hasNextLine()) {
+            String[] str = scanner.nextLine().split("<br/>");
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i < str.length; i++) {
+                int num = Integer.valueOf(str[i]);
+                if(num <= 2) {
+                    sb.append(num);
+                    if(i != str.length - 1) {
+                        sb.append("<br/>");
+                    }
+                    continue;
+                }
+                int a = 1;
+                int b = 2;
+                for(int j = 3; j <= num; j++) {
+                    int temp = a + b;
+                    a = b;
+                    b = temp;
+                }
+                sb.append(num % 100_0000);
+                if(i != str.length - 1) {
+                    sb.append("<br/>");
+                }
+            }
+            System.out.println(sb.toString());
+        }
     }
+
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNextLine()) {
+//            String[] str = scanner.nextLine().split("<br/>");
+//            for(int i = 0; i < str.length; i++) {
+//                List<Integer> list = new ArrayList<>();
+//                int n = Integer.parseInt(str[i]);
+//                int num = n;
+//                for(int j = 2; j <= Math.sqrt(num); j++) {
+//                    if(num % j == 0) {
+//                        while(num % j == 0) {
+//                            num /= j;
+//                        }
+//                        list.add(j);
+//                    }
+//
+//                }
+//                // 说明当前的num也是个质数了
+//                if(num != 0) {
+//                    list.add(num);
+//                }
+//                StringBuilder sb = new StringBuilder();
+//                int size = list.size();
+//                sb.append(n).append(" = ");
+//                for(int j = 0; j < size; j++) {
+//                    sb.append(list.get(j));
+//                    if(j != size - 1) {
+//                        sb.append(" * ");
+//                    }
+//                }
+//                System.out.print(sb.toString());
+//                if(i != str.length - 1) {
+//                    System.out.println("<br/>");
+//                }
+//                System.out.println();
+//            }
+//        }
+//    }
 }
 
 //public class Main {
