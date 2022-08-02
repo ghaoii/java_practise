@@ -1,17 +1,34 @@
 package leetcode;
 
 public class Num83_DeleteDuplicates {
-    //解法三,递归
     public ListNode deleteDuplicates(ListNode head) {
-        if(head == null || head.next == null){
+        if(head == null || head.next == null) {
             return head;
         }
-        head.next = deleteDuplicates(head.next);
-        if(head.val == head.next.val){
-            return head.next;
+        ListNode prev = head;
+        ListNode cur = prev.next;
+        while(cur != null) {
+            if(cur.val == prev.val) {
+                prev.next = cur.next;
+            }else {
+                prev = cur;
+            }
+            cur = cur.next;
         }
         return head;
     }
+
+    //解法三,递归
+//    public ListNode deleteDuplicates(ListNode head) {
+//        if(head == null || head.next == null){
+//            return head;
+//        }
+//        head.next = deleteDuplicates(head.next);
+//        if(head.val == head.next.val){
+//            return head.next;
+//        }
+//        return head;
+//    }
 
     //解法二
 //    public ListNode deleteDuplicates(ListNode head) {

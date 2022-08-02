@@ -1,32 +1,55 @@
 package leetcode;
 
 public class Num203_RemoveElements {
+    public ListNode removeElements(ListNode head, int val) {
+        if(head == null) {
+            return null;
+        }
+        while(head != null && head.val == val) {
+            head = head.next;
+        }
+        if(head == null || head.next == null) {
+            return head;
+        }
+        ListNode prev = head;
+        ListNode cur = head.next;
+        while(cur != null) {
+            if(cur.val == val) {
+                prev.next = cur.next;
+            }else {
+                prev = cur;
+            }
+            cur = cur.next;
+        }
+        return head;
+    }
+
     /**
      * 没有虚拟头结点的解法
      * @param head
      * @param val
      * @return
      */
-    public ListNode removeElements(ListNode head, int val) {
-        if(head == null){
-            return null;
-        }
-        while(head != null && head.val == val){
-            head = head.next;
-        }
-        if(head == null){
-            return null;
-        }
-        ListNode prev = head;
-        while(prev.next != null){
-            if(prev.next.val == val){
-                prev.next = prev.next.next;
-            }else{
-                prev = prev.next;
-            }
-        }
-        return head;
-    }
+//    public ListNode removeElements(ListNode head, int val) {
+//        if(head == null){
+//            return null;
+//        }
+//        while(head != null && head.val == val){
+//            head = head.next;
+//        }
+//        if(head == null){
+//            return null;
+//        }
+//        ListNode prev = head;
+//        while(prev.next != null){
+//            if(prev.next.val == val){
+//                prev.next = prev.next.next;
+//            }else{
+//                prev = prev.next;
+//            }
+//        }
+//        return head;
+//    }
 
 
 
