@@ -3,36 +3,66 @@ package exam;
 import java.util.*;
 
 public class Main {
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        while(scanner.hasNextLine()) {
-            String[] str = scanner.nextLine().split("<br/>");
+        while(scanner.hasNext()) {
+            char[] temp = scanner.nextLine().toCharArray();
+            String name = scanner.nextLine();
+            List<String> list = new ArrayList<>();
             StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < str.length; i++) {
-                int num = Integer.valueOf(str[i]);
-                if(num <= 2) {
-                    sb.append(num);
-                    if(i != str.length - 1) {
-                        sb.append("<br/>");
-                    }
-                    continue;
-                }
-                int a = 1;
-                int b = 2;
-                for(int j = 3; j <= num; j++) {
-                    int temp = a + b;
-                    a = b;
-                    b = temp;
-                }
-                sb.append(num % 100_0000);
-                if(i != str.length - 1) {
-                    sb.append("<br/>");
+            boolean flag = false;
+            for(char ch : temp) {
+                if(ch == '"' && !flag) {
+                    flag = true;
+                }else if(ch == '"') {
+                    flag = false;
+                }else if(ch == ',' && !flag) {
+                    list.add(sb.toString());
+                    sb = new StringBuilder();
+                }else {
+                    sb.append(ch);
                 }
             }
-            System.out.println(sb.toString());
+            String ret = "Important!";
+            for(String str : list) {
+                if(str.equals(name)) {
+                    ret = "Ignore";
+                    break;
+                }
+            }
+            System.out.println(ret);
         }
     }
+
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNextLine()) {
+//            String[] str = scanner.nextLine().split("<br/>");
+//            StringBuilder sb = new StringBuilder();
+//            for(int i = 0; i < str.length; i++) {
+//                int num = Integer.valueOf(str[i]);
+//                if(num <= 2) {
+//                    sb.append(num);
+//                    if(i != str.length - 1) {
+//                        sb.append("<br/>");
+//                    }
+//                    continue;
+//                }
+//                int a = 1;
+//                int b = 2;
+//                for(int j = 3; j <= num; j++) {
+//                    int temp = a + b;
+//                    a = b;
+//                    b = temp;
+//                }
+//                sb.append(num % 100_0000);
+//                if(i != str.length - 1) {
+//                    sb.append("<br/>");
+//                }
+//            }
+//            System.out.println(sb.toString());
+//        }
+//    }
 
 //    public static void main(String[] args) {
 //        Scanner scanner = new Scanner(System.in);
