@@ -6,33 +6,65 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while(scanner.hasNext()) {
-            char[] temp = scanner.nextLine().toCharArray();
-            String name = scanner.nextLine();
-            List<String> list = new ArrayList<>();
-            StringBuilder sb = new StringBuilder();
-            boolean flag = false;
-            for(char ch : temp) {
-                if(ch == '"' && !flag) {
-                    flag = true;
-                }else if(ch == '"') {
-                    flag = false;
-                }else if(ch == ',' && !flag) {
-                    list.add(sb.toString());
-                    sb = new StringBuilder();
-                }else {
-                    sb.append(ch);
+            int n = scanner.nextInt();
+            scanner.nextLine();
+            String[] paths = new String[n];
+            for(int i = 0; i < n; i++) {
+                paths[i] = scanner.nextLine();
+            }
+          Arrays.sort(paths, new Comparator<String>() {
+              @Override
+              public int compare(String o1, String o2) {
+                  int size = Math.min(o1.length(), o2.length());
+                  for (int i = 0; i < size; i++) {
+                      if(o1.charAt(i) != o2.charAt(i)) {
+                          return o1.charAt(i) - o2.charAt(i);
+                      }
+                  }
+                  return o1.length() - o2.length();
+              }
+          });
+
+            for (int i = 0; i < n - 1; i++) {
+                if(!paths[i + 1].contains(paths[i])) {
+                    System.out.println("mkdir -p " + paths[i]);
                 }
             }
-            String ret = "Important!";
-            for(String str : list) {
-                if(str.equals(name)) {
-                    ret = "Ignore";
-                    break;
-                }
-            }
-            System.out.println(ret);
+            System.out.println("mkdir -p " + paths[n - 1]);
         }
+        System.out.println();
     }
+
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNext()) {
+//            char[] temp = scanner.nextLine().toCharArray();
+//            String name = scanner.nextLine();
+//            List<String> list = new ArrayList<>();
+//            StringBuilder sb = new StringBuilder();
+//            boolean flag = false;
+//            for(char ch : temp) {
+//                if(ch == '"' && !flag) {
+//                    flag = true;
+//                }else if(ch == '"') {
+//                    flag = false;
+//                }else if(ch == ',' && !flag) {
+//                    list.add(sb.toString());
+//                    sb = new StringBuilder();
+//                }else {
+//                    sb.append(ch);
+//                }
+//            }
+//            String ret = "Important!";
+//            for(String str : list) {
+//                if(str.equals(name)) {
+//                    ret = "Ignore";
+//                    break;
+//                }
+//            }
+//            System.out.println(ret);
+//        }
+//    }
 
 //    public static void main(String[] args) {
 //        Scanner scanner = new Scanner(System.in);
