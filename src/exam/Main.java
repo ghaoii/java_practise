@@ -2,38 +2,123 @@ package exam;
 
 import java.util.*;
 
+class Pair {
+    int x;
+    int y;
+
+    public Pair(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while(scanner.hasNext()) {
             int n = scanner.nextInt();
-            scanner.nextLine();
-            String[] paths = new String[n];
-            for(int i = 0; i < n; i++) {
-                paths[i] = scanner.nextLine();
+            int m = scanner.nextInt();
+            int k = scanner.nextInt();
+            int[][] mushroom = new int[m + 1][n + 1];
+            for(int i = 0; i < k; i++) {
+                int x = scanner.nextInt();
+                int y = scanner.nextInt();
+                mushroom[y][x] = 1;
             }
-          Arrays.sort(paths, new Comparator<String>() {
-              @Override
-              public int compare(String o1, String o2) {
-                  int size = Math.min(o1.length(), o2.length());
-                  for (int i = 0; i < size; i++) {
-                      if(o1.charAt(i) != o2.charAt(i)) {
-                          return o1.charAt(i) - o2.charAt(i);
-                      }
-                  }
-                  return o1.length() - o2.length();
-              }
-          });
-
-            for (int i = 0; i < n - 1; i++) {
-                if(!paths[i + 1].contains(paths[i])) {
-                    System.out.println("mkdir -p " + paths[i]);
+            double[][] grass = new double[m + 1][n + 1];
+            grass[1][1] = 1;
+            for(int i = 1; i <= m; i++) {
+                for(int j = 1; j <= n; j++) {
+                    if(mushroom[i][j] == 1) {
+                        grass[i][j] = 0;
+                        continue;
+                    }
+                    if(i != 1 || j != 1) {
+                        grass[i][j] = grass[i - 1][j] * (j == n ? 1.0 : 0.5) + grass[i][j - 1] * (i == m ? 1.0 : 0.5);
+                    }
                 }
             }
-            System.out.println("mkdir -p " + paths[n - 1]);
+            System.out.printf("%.2f", grass[m][n]);
         }
-        System.out.println();
     }
+
+//    private static int[][] next = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNext()) {
+//            int row = scanner.nextInt();
+//            int col = scanner.nextInt();
+//            scanner.nextLine();
+//            char[][] floor = new char[row][col];
+//            int startX = 0;
+//            for(int i = 0; i < row; i++) {
+//                String str = scanner.nextLine();
+//                if(str.contains("@")) {
+//                    startX = i;
+//                }
+//                floor[i] = str.toCharArray();
+//            }
+//            int[][] book = new int[row][col];
+//            Deque<Pair> queue = new LinkedList<>();
+//            for(int i = 0; i < col; i++) {
+//                if(floor[startX][i] == '@') {
+//                    queue.offer(new Pair(startX, i));
+//                    book[startX][i] = 1;
+//                    break;
+//                }
+//            }
+//
+//            int count = 1;
+//            while(!queue.isEmpty()) {
+//                Pair pair = queue.poll();
+//                for(int i = 0; i < 4; i++) {
+//                    int newX = pair.x + next[i][0];
+//                    int newY = pair.y + next[i][1];
+//                    if(newX < 0 || newX >= row || newY < 0 || newY >= col || book[newX][newY] == 1) {
+//                        continue;
+//                    }
+//                    if(floor[newX][newY] == '.') {
+//                        queue.offer(new Pair(newX, newY));
+//                        book[newX][newY] = 1;
+//                        count++;
+//                    }
+//                }
+//            }
+//            System.out.println(count);
+//        }
+//    }
+
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNext()) {
+//            int n = scanner.nextInt();
+//            scanner.nextLine();
+//            String[] paths = new String[n];
+//            for(int i = 0; i < n; i++) {
+//                paths[i] = scanner.nextLine();
+//            }
+//          Arrays.sort(paths, new Comparator<String>() {
+//              @Override
+//              public int compare(String o1, String o2) {
+//                  int size = Math.min(o1.length(), o2.length());
+//                  for (int i = 0; i < size; i++) {
+//                      if(o1.charAt(i) != o2.charAt(i)) {
+//                          return o1.charAt(i) - o2.charAt(i);
+//                      }
+//                  }
+//                  return o1.length() - o2.length();
+//              }
+//          });
+//
+//            for (int i = 0; i < n - 1; i++) {
+//                if(!paths[i + 1].contains(paths[i])) {
+//                    System.out.println("mkdir -p " + paths[i]);
+//                }
+//            }
+//            System.out.println("mkdir -p " + paths[n - 1]);
+//        }
+//        System.out.println();
+//    }
 
 //    public static void main(String[] args) {
 //        Scanner scanner = new Scanner(System.in);
