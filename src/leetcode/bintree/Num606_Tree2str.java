@@ -1,4 +1,6 @@
-package leetcode;
+package leetcode.bintree;
+
+import leetcode.bintree.TreeNode;
 
 public class Num606_Tree2str {
     public String tree2str(TreeNode root) {

@@ -1,4 +1,6 @@
-package leetcode;
+package leetcode.bintree;
+
+import leetcode.bintree.TreeNode;
 
 public class Num101_IsSymmetric {
     public boolean isSymmetric(TreeNode root) {

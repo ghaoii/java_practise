@@ -1,4 +1,6 @@
-package leetcode;
+package leetcode.bintree;
+
+import leetcode.bintree.TreeNode;
 
 public class Num572_IsSubtree {
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {

@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.bintree;
 
 public class TreeNode {
     int val;

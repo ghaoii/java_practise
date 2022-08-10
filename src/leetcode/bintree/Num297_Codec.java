@@ -1,7 +1,4 @@
-package leetcode;
-
-import java.util.Deque;
-import java.util.LinkedList;
+package leetcode.bintree;
 
 public class Num297_Codec {
     int index = 0;
