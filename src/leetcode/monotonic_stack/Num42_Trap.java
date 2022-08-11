@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.monotonic_stack;
 
 public class Num42_Trap {
     // 双引用
