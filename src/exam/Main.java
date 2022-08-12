@@ -15,32 +15,75 @@ class Pair {
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        while(scanner.hasNext()) {
-            int n = scanner.nextInt();
-            int m = scanner.nextInt();
-            int k = scanner.nextInt();
-            int[][] mushroom = new int[m + 1][n + 1];
-            for(int i = 0; i < k; i++) {
-                int x = scanner.nextInt();
-                int y = scanner.nextInt();
-                mushroom[y][x] = 1;
+        while(scanner.hasNextLine()) {
+            char[][] board = new char[20][20];
+            for(int i = 0; i < 20; i++) {
+                board[i] = scanner.nextLine().toCharArray();
             }
-            double[][] grass = new double[m + 1][n + 1];
-            grass[1][1] = 1;
-            for(int i = 1; i <= m; i++) {
-                for(int j = 1; j <= n; j++) {
-                    if(mushroom[i][j] == 1) {
-                        grass[i][j] = 0;
+            String[][] dp = new String[21][21];
+            for(int i = 0; i < 21; i++) {
+                dp[0][i] = "0,0,0";
+            }
+            for(int i = 1; i < 21; i++) {
+                dp[i][0] = "0,0,0";
+            }
+            boolean flag = false;
+            for(int i = 1; i < 21; i++) {
+                for(int j = 1; j < 21; j++) {
+                    char ch = board[i - 1][j - 1];
+                    if(ch == '.') {
+                        dp[i][j] = "0,0,0";
                         continue;
                     }
-                    if(i != 1 || j != 1) {
-                        grass[i][j] = grass[i - 1][j] * (j == n ? 1.0 : 0.5) + grass[i][j - 1] * (i == m ? 1.0 : 0.5);
+                    int a = board[i - 2][j - 1] == ch ? dp[i - 1][j].charAt(0) - '0' + 1 : 1;
+                    int b = board[i - 1][j - 2] == ch ? dp[i][j - 1].charAt(2) - '0' + 1 : 1;
+                    int c = board[i - 2][j - 2] == ch ? dp[i - 1][j - 1].charAt(4) - '0' + 1 : 1;
+                    if(a == 5 || b == 5 || c == 5) {
+                        flag = true;
+                        break;
                     }
+                    dp[i][j] = a + "," + b + "," + c;
+                }
+                if(flag) {
+                    break;
                 }
             }
-            System.out.printf("%.2f", grass[m][n]);
+            String str = "NO";
+            if(flag) {
+                str = "Yes";
+            }
+            System.out.println(str);
         }
     }
+
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNext()) {
+//            int n = scanner.nextInt();
+//            int m = scanner.nextInt();
+//            int k = scanner.nextInt();
+//            int[][] mushroom = new int[m + 1][n + 1];
+//            for(int i = 0; i < k; i++) {
+//                int x = scanner.nextInt();
+//                int y = scanner.nextInt();
+//                mushroom[y][x] = 1;
+//            }
+//            double[][] grass = new double[m + 1][n + 1];
+//            grass[1][1] = 1;
+//            for(int i = 1; i <= m; i++) {
+//                for(int j = 1; j <= n; j++) {
+//                    if(mushroom[i][j] == 1) {
+//                        grass[i][j] = 0;
+//                        continue;
+//                    }
+//                    if(i != 1 || j != 1) {
+//                        grass[i][j] = grass[i - 1][j] * (j == n ? 1.0 : 0.5) + grass[i][j - 1] * (i == m ? 1.0 : 0.5);
+//                    }
+//                }
+//            }
+//            System.out.printf("%.2f", grass[m][n]);
+//        }
+//    }
 
 //    private static int[][] next = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 //    public static void main(String[] args) {
