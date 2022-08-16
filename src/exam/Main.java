@@ -15,46 +15,102 @@ class Pair {
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        while(scanner.hasNextLine()) {
-            char[][] board = new char[20][20];
-            for(int i = 0; i < 20; i++) {
-                board[i] = scanner.nextLine().toCharArray();
+        while(scanner.hasNext()) {
+            int num = scanner.nextInt();
+            String[] strs = new String[num];
+            for(int i = 0; i < num; i++) {
+                strs[i] = scanner.next();
             }
-            String[][] dp = new String[21][21];
-            for(int i = 0; i < 21; i++) {
-                dp[0][i] = "0,0,0";
-            }
-            for(int i = 1; i < 21; i++) {
-                dp[i][0] = "0,0,0";
-            }
-            boolean flag = false;
-            for(int i = 1; i < 21; i++) {
-                for(int j = 1; j < 21; j++) {
-                    char ch = board[i - 1][j - 1];
-                    if(ch == '.') {
-                        dp[i][j] = "0,0,0";
-                        continue;
-                    }
-                    int a = board[i - 2][j - 1] == ch ? dp[i - 1][j].charAt(0) - '0' + 1 : 1;
-                    int b = board[i - 1][j - 2] == ch ? dp[i][j - 1].charAt(2) - '0' + 1 : 1;
-                    int c = board[i - 2][j - 2] == ch ? dp[i - 1][j - 1].charAt(4) - '0' + 1 : 1;
-                    if(a == 5 || b == 5 || c == 5) {
-                        flag = true;
-                        break;
-                    }
-                    dp[i][j] = a + "," + b + "," + c;
+            String bro = scanner.next();
+            int k = scanner.nextInt();
+            List<String> list = new LinkedList<>();
+            int count = 0;
+            for(int i = 0; i < num; i++) {
+                if(brotherWord(strs[i], bro)) {
+                    count++;
+                    list.add(strs[i]);
                 }
-                if(flag) {
-                    break;
-                }
+            };
+            System.out.println(count);
+            if(count == 0) {
+                System.out.println("");
+                continue;
             }
-            String str = "NO";
-            if(flag) {
-                str = "Yes";
+            String[] temp = new String[count];
+            for(int i = 0; i < count; i++) {
+                list.add(temp[i]);
             }
-            System.out.println(str);
+            Arrays.sort(temp);
+            System.out.println(temp[k - 1]);
+
         }
     }
+
+    private static boolean brotherWord(String str1, String str2) {
+        if(str1.equals(str2)) {
+            return true;
+        }
+        int len1 = str1.length();
+        int len2 = str2.length();
+        if(len1 != len2) {
+            return false;
+        }
+        int[] letter = new int[26];
+        for(int i = 0; i < len1; i++) {
+            letter[str1.charAt(i) - 'a']++;
+        }
+        for(int i = 0; i < len2; i++) {
+            int index = str2.charAt(i) - 'a';
+            if(letter[index] == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNextLine()) {
+//            char[][] board = new char[20][20];
+//            for(int i = 0; i < 20; i++) {
+//                board[i] = scanner.nextLine().toCharArray();
+//            }
+//            String[][] dp = new String[21][21];
+//            for(int i = 0; i < 21; i++) {
+//                dp[0][i] = "0,0,0";
+//            }
+//            for(int i = 1; i < 21; i++) {
+//                dp[i][0] = "0,0,0";
+//            }
+//            boolean flag = false;
+//            for(int i = 1; i < 21; i++) {
+//                for(int j = 1; j < 21; j++) {
+//                    char ch = board[i - 1][j - 1];
+//                    if(ch == '.') {
+//                        dp[i][j] = "0,0,0";
+//                        continue;
+//                    }
+//                    int a = board[i - 2][j - 1] == ch ? dp[i - 1][j].charAt(0) - '0' + 1 : 1;
+//                    int b = board[i - 1][j - 2] == ch ? dp[i][j - 1].charAt(2) - '0' + 1 : 1;
+//                    int c = board[i - 2][j - 2] == ch ? dp[i - 1][j - 1].charAt(4) - '0' + 1 : 1;
+//                    if(a == 5 || b == 5 || c == 5) {
+//                        flag = true;
+//                        break;
+//                    }
+//                    dp[i][j] = a + "," + b + "," + c;
+//                }
+//                if(flag) {
+//                    break;
+//                }
+//            }
+//            String str = "NO";
+//            if(flag) {
+//                str = "Yes";
+//            }
+//            System.out.println(str);
+//        }
+//    }
 
 //    public static void main(String[] args) {
 //        Scanner scanner = new Scanner(System.in);
