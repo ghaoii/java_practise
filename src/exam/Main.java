@@ -2,15 +2,15 @@ package exam;
 
 import java.util.*;
 
-class Pair {
-    int x;
-    int y;
-
-    public Pair(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
+//class Pair {
+//    int x;
+//    int y;
+//
+//    public Pair(int x, int y) {
+//        this.x = x;
+//        this.y = y;
+//    }
+//}
 
 public class Main {
     public static void main(String[] args) {
