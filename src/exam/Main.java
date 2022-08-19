@@ -16,57 +16,88 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while(scanner.hasNext()) {
-            int num = scanner.nextInt();
-            String[] strs = new String[num];
-            for(int i = 0; i < num; i++) {
-                strs[i] = scanner.next();
+            int n = scanner.nextInt();
+            int[] student = new int[n];
+            for(int i = 0; i < n; i++) {
+                student[i] = scanner.nextInt();
             }
-            String bro = scanner.next();
             int k = scanner.nextInt();
-            List<String> list = new LinkedList<>();
-            int count = 0;
-            for(int i = 0; i < num; i++) {
-                if(brotherWord(strs[i], bro)) {
-                    count++;
-                    list.add(strs[i]);
+            int dif = scanner.nextInt();
+            Queue<Integer> heap = new PriorityQueue<>((o1, o2) -> student[o1] - student[o2]);
+            for(int i = 0; i < n; i++) {
+                if(i < k) {
+                    heap.offer(i);
+                }else {
+                    int j = heap.peek();
+                    if(i - j <= dif && student[i] > student[j]) {
+                        heap.poll();
+                        heap.offer(i);
+                    }
                 }
-            };
-            System.out.println(count);
-            if(count == 0) {
-                System.out.println("");
-                continue;
             }
-            String[] temp = new String[count];
-            for(int i = 0; i < count; i++) {
-                list.add(temp[i]);
+            int mul = 1;
+            for(int i = 0; i < heap.size(); i++) {
+                mul *= student[heap.poll()];
             }
-            Arrays.sort(temp);
-            System.out.println(temp[k - 1]);
-
+            System.out.println(mul);
         }
     }
 
-    private static boolean brotherWord(String str1, String str2) {
-        if(str1.equals(str2)) {
-            return true;
-        }
-        int len1 = str1.length();
-        int len2 = str2.length();
-        if(len1 != len2) {
-            return false;
-        }
-        int[] letter = new int[26];
-        for(int i = 0; i < len1; i++) {
-            letter[str1.charAt(i) - 'a']++;
-        }
-        for(int i = 0; i < len2; i++) {
-            int index = str2.charAt(i) - 'a';
-            if(letter[index] == 0) {
-                return false;
-            }
-        }
-        return true;
-    }
+
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNext()) {
+//            int num = scanner.nextInt();
+//            String[] strs = new String[num];
+//            for(int i = 0; i < num; i++) {
+//                strs[i] = scanner.next();
+//            }
+//            String bro = scanner.next();
+//            int k = scanner.nextInt();
+//            List<String> list = new LinkedList<>();
+//            int count = 0;
+//            for(int i = 0; i < num; i++) {
+//                if(brotherWord(strs[i], bro)) {
+//                    count++;
+//                    list.add(strs[i]);
+//                }
+//            };
+//            System.out.println(count);
+//            if(count == 0) {
+//                System.out.println("");
+//                continue;
+//            }
+//            String[] temp = new String[count];
+//            for(int i = 0; i < count; i++) {
+//                list.add(temp[i]);
+//            }
+//            Arrays.sort(temp);
+//            System.out.println(temp[k - 1]);
+//
+//        }
+//    }
+//
+//    private static boolean brotherWord(String str1, String str2) {
+//        if(str1.equals(str2)) {
+//            return true;
+//        }
+//        int len1 = str1.length();
+//        int len2 = str2.length();
+//        if(len1 != len2) {
+//            return false;
+//        }
+//        int[] letter = new int[26];
+//        for(int i = 0; i < len1; i++) {
+//            letter[str1.charAt(i) - 'a']++;
+//        }
+//        for(int i = 0; i < len2; i++) {
+//            int index = str2.charAt(i) - 'a';
+//            if(letter[index] == 0) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
 
 //    public static void main(String[] args) {
