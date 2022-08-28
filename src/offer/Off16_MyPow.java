@@ -6,22 +6,27 @@ public class Off16_MyPow {
         if(x == 0) {
             return x;
         }
+        long num = n;
+        if(n >= 0) {
+            return helper(x, num);
+        }else {
+            return 1.0 / helper(x, -num);
+        }
+    }
 
+    private double helper(double x, long n) {
         if(n == 0) {
             return 1.0;
         }
-        boolean flag = n > 0;
-        n = Math.abs(n);
-        int i = 1;
-        double ret = x;
-        while(i * 2 <= n) {
-            ret *= ret;
-            i *= 2;
+        if(n == 1) {
+            return x;
         }
-        while (i < n) {
+        double ret = helper(x, n >> 1);
+        ret *= ret;
+        if((n & 1) == 1) {
+            // n是偶数
             ret *= x;
-            i++;
         }
-        return flag ? ret : 1.0 / ret;
+        return ret;
     }
 }
