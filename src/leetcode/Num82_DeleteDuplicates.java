@@ -7,23 +7,47 @@ public class Num82_DeleteDuplicates {
         if(head == null || head.next == null) {
             return head;
         }
-        ListNode dummyHead = new ListNode(0, head);
+        ListNode dummyHead = new ListNode();
+        dummyHead.next = head;
         ListNode prev = dummyHead;
         ListNode cur = head;
         while(cur != null && cur.next != null) {
-            ListNode next = cur.next;
-            if(next.val == cur.val) {
-                while(next != null && next.val == cur.val) {
-                    next = next.next;
+            ListNode node = cur.next;
+            if(node.val == cur.val) {
+                while(node != null && node.val == cur.val) {
+                    node = node.next;
                 }
-                prev.next = next;
+                cur = node;
+                prev.next = cur;
             }else {
-                prev = cur;
+                prev = prev.next;
+                cur = cur.next;
             }
-            cur = next;
         }
         return dummyHead.next;
     }
+
+//    public ListNode deleteDuplicates(ListNode head) {
+//        if(head == null || head.next == null) {
+//            return head;
+//        }
+//        ListNode dummyHead = new ListNode(0, head);
+//        ListNode prev = dummyHead;
+//        ListNode cur = head;
+//        while(cur != null && cur.next != null) {
+//            ListNode next = cur.next;
+//            if(next.val == cur.val) {
+//                while(next != null && next.val == cur.val) {
+//                    next = next.next;
+//                }
+//                prev.next = next;
+//            }else {
+//                prev = cur;
+//            }
+//            cur = next;
+//        }
+//        return dummyHead.next;
+//    }
 
     //递归 - 传入一个链表的头结点，就能帮我们删除所有重复元素，返回新的头结点
 //    public ListNode deleteDuplicates(ListNode head) {

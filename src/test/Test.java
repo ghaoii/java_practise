@@ -6,17 +6,18 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 
-
-public class Test {
-    public static void main(String[] args) {
-        int a = 10;
-        Integer b = 10;
-        Integer c = Integer.valueOf(10);
-        Integer d = new Integer(10);
-        System.out.println(b.equals(d));
+class Person {
+    int a = 10;
+}
+public class Test extends Person{
+    public int aMethod(){
+        System.out.println(a);
+        return a;
     }
 
+    public static void main(String[] args) {
+        System.out.println();
+    }
 
 }
-
 

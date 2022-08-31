@@ -2,27 +2,51 @@ package leetcode;
 
 public class Num21_MergeTwoLists {
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        ListNode fir = list1;
-        ListNode sec = list2;
         ListNode dummyHead = new ListNode();
-        ListNode node = dummyHead;
-        while(fir != null && sec != null) {
-            if(fir.val < sec.val) {
-                node.next = fir;
-                fir = fir.next;
-            }else {
-                node.next = sec;
-                sec = sec.next;
+        ListNode tail = dummyHead;
+        while(list1 != null || list2 != null) {
+            if(list1 == null) {
+                tail.next = list2;
+                break;
             }
-            node = node.next;
-        }
-        if(fir == null) {
-            node.next = sec;
-        }else {
-            node.next = fir;
+            if(list2 == null) {
+                tail.next = list1;
+                break;
+            }
+            if(list1.val < list2.val) {
+                tail.next = list1;
+                list1 = list1.next;
+            }else {
+                tail.next = list2;
+                list2 = list2.next;
+            }
+            tail = tail.next;
         }
         return dummyHead.next;
     }
+
+//    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+//        ListNode fir = list1;
+//        ListNode sec = list2;
+//        ListNode dummyHead = new ListNode();
+//        ListNode node = dummyHead;
+//        while(fir != null && sec != null) {
+//            if(fir.val < sec.val) {
+//                node.next = fir;
+//                fir = fir.next;
+//            }else {
+//                node.next = sec;
+//                sec = sec.next;
+//            }
+//            node = node.next;
+//        }
+//        if(fir == null) {
+//            node.next = sec;
+//        }else {
+//            node.next = fir;
+//        }
+//        return dummyHead.next;
+//    }
 
 
 
