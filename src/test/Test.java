@@ -1,22 +1,28 @@
 package test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-class Person {
-    int a = 10;
-}
-public class Test extends Person{
-    public int aMethod(){
-        System.out.println(a);
-        return a;
-    }
-
+public class Test {
     public static void main(String[] args) {
-        System.out.println();
+        Scanner scanner = new Scanner(System.in);
+        while(scanner.hasNextLine()) {
+            String except = scanner.nextLine().toUpperCase();
+            String actual = scanner.nextLine().toUpperCase();
+            Set<Character> set = new HashSet<>();
+            for(char ch : actual.toCharArray()) {
+                set.add(ch);
+            }
+            Set<Character> broke = new HashSet<>();
+            StringBuilder sb = new StringBuilder();
+            for(char ch : except.toCharArray()) {
+                if(!set.contains(ch) && !broke.contains(ch)) {
+                    sb.append(ch);
+                    broke.add(ch);
+                }
+            }
+            System.out.println(sb.toString());
+        }
     }
 
 }

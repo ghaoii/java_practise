@@ -17,5 +17,6 @@ public class MyBinSearchTreeTest {
         bst.add(40);
         System.out.println(bst.remove(28));
         System.out.println(bst);
+//        System.out.println(bst.remove(28));
     }
 }
