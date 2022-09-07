@@ -12,36 +12,97 @@ import java.util.*;
 //    }
 //}
 
+class Point {
+    int x;
+    int y;
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class Pair {
+    double k;
+    double b;
+
+    public Pair(double k, double b) {
+        this.k = k;
+        this.b = b;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Pair o = (Pair) obj;
+        return this.k == o.k && this.b == o.b;
+    }
+}
+
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        while(scanner.hasNext()) {
-            int n = scanner.nextInt();
-            int[] student = new int[n];
-            for(int i = 0; i < n; i++) {
-                student[i] = scanner.nextInt();
-            }
-            int k = scanner.nextInt();
-            int dif = scanner.nextInt();
-            Queue<Integer> heap = new PriorityQueue<>((o1, o2) -> student[o1] - student[o2]);
-            for(int i = 0; i < n; i++) {
-                if(i < k) {
-                    heap.offer(i);
+    private static int max = 2;
+
+    /**
+     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+     *
+     * @param points Point类一维数组
+     * @return int整型
+     */
+    public int maxPointsNum(Point[] points) {
+        if (points.length < 2) {
+            return 0;
+        }
+        int len = points.length;
+        Map<Pair, Integer> map = new HashMap<>();
+        for (int i = 0; i < len; i++) {
+            for (int j = i + 1; j < len; j++) {
+                Point point1 = points[i];
+                Point point2 = points[j];
+                double k = 1.0 * (point2.y - point1.y) / (point2.x - point1.x);
+                double b = point1.y - k * point1.x;
+                Pair pair = new Pair(k, b);
+                // 判断该直线的函数是否和其他直线函数重合了
+                if(map.containsKey(pair)) {
+                    // 如果重合，则count + 1，并更新count
+                    int count = map.get(pair) + 1;
+                    max = Math.max(max, count);
+                    map.put(pair, count);
                 }else {
-                    int j = heap.peek();
-                    if(i - j <= dif && student[i] > student[j]) {
-                        heap.poll();
-                        heap.offer(i);
-                    }
+                    map.put(new Pair(k, b), 2);
                 }
             }
-            int mul = 1;
-            for(int i = 0; i < heap.size(); i++) {
-                mul *= student[heap.poll()];
-            }
-            System.out.println(mul);
         }
+        return max;
     }
+
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while(scanner.hasNext()) {
+//            int n = scanner.nextInt();
+//            int[] student = new int[n];
+//            for(int i = 0; i < n; i++) {
+//                student[i] = scanner.nextInt();
+//            }
+//            int k = scanner.nextInt();
+//            int dif = scanner.nextInt();
+//            Queue<Integer> heap = new PriorityQueue<>((o1, o2) -> student[o1] - student[o2]);
+//            for(int i = 0; i < n; i++) {
+//                if(i < k) {
+//                    heap.offer(i);
+//                }else {
+//                    int j = heap.peek();
+//                    if(i - j <= dif && student[i] > student[j]) {
+//                        heap.poll();
+//                        heap.offer(i);
+//                    }
+//                }
+//            }
+//            int mul = 1;
+//            for(int i = 0; i < heap.size(); i++) {
+//                mul *= student[heap.poll()];
+//            }
+//            System.out.println(mul);
+//        }
+//    }
 
 
 //    public static void main(String[] args) {
