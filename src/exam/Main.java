@@ -2,134 +2,97 @@ package exam;
 
 import java.util.*;
 
-//class Pair {
-//    int one;
-//    int two;
-//}
+class Stone {
+    int left;
+    int center;
+    int right;
+
+    public Stone(int left, int center, int right) {
+        this.left = left;
+        this.center = center;
+        this.right = right;
+    }
+}
 
 public class Main {
-    private static final int M = 10_0000_0007;
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while(scanner.hasNextInt()) {
             int n = scanner.nextInt();
-            if(n < 3) {
-                System.out.println(0);
-                continue;
-            }
-            if(n == 3) {
-                System.out.println(1);
-                continue;
-            }
-            long[][] dp = new long[n][n];
-            dp[0][0] = 1;
-            for (int i = 0; i <= n - 3; i++) {
-                if(i > 0) {
-                    dp[i][0] = 26;
-                }
-                for (int j = 1; j < n; j++) {
-                    if(j < i) {
-                        if(j < 2) {
-                            dp[i][j]=  dp[i][j - 1] * 26;
-                        }else {
-                            dp[i][j] = dp[i][j - 1] * 25;
-                        }
-                    }else if(j - i < 3) {
-                        if(j - i >= 4) {
-                            dp[i][j] = dp[i][j - 1] * 25;
-                        }else {
-                            dp[i][j] = dp[i][j - 1];
-                        }
+            List<List<Stone>> list = new ArrayList<>();
+            int count = 0;
+            for(int i = 0; i < n; i++) {
+                int m = scanner.nextInt();
+                List<Stone> stones = new ArrayList<>();
+                for (int j = 0; j < m; j++) {
+                    int left = scanner.nextInt();
+                    Stone stone = new Stone(left, left + 50, left + 100);
+                    if(i == 0) {
+                        stones.add(stone);
+                        count++;
+                    }else if(notBreak(list.get(i - 1), left, left + 50, left + 100)) {
+                        stones.add(stone);
+                        count++;
                     }
-                    dp[i][j] %= M;
                 }
-            }
-            long count = 0;
-            for (int i = 0; i <= n - 3; i++) {
-                count += dp[i][n - 1];
-                count %= M;
+                list.add(stones);
             }
             System.out.println(count);
         }
     }
 
+    private static boolean notBreak(List<Stone> stones, int left, int center, int right) {
+        int flagA = 0;
+        for(Stone stone : stones) {
+            if(right < stone.left) {
+                break;
+            }
+            if(left > stone.right) {
+                continue;
+            }
+            if(left == stone.left) {
+                return true;
+            }
+            if(right > stone.left && right < stone.right) {
+                if(center > stone.left) {
+                    return true;
+                }
+                flagA++;
+            }else if(left > stone.left && left < stone.right) {
+                if(center < stone.right) {
+                    return true;
+                }
+                flagA++;
+            }
+            if(flagA == 2) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
 //    public static void main(String[] args) {
 //        Scanner scanner = new Scanner(System.in);
-//        while(scanner.hasNextInt()) {
-//            int n = scanner.nextInt();
-//            int k = scanner.nextInt();
-//            int[] arr = new int[n];
-//            for(int i = 0;i < n; i++) {
-//                arr[i] = scanner.nextInt();
+//        while(scanner.hasNextLine()) {
+//            String[] strs = scanner.nextLine().split(" ");
+//            if(strs.length < 5 || strs.length % 5 != 0) {
+//                System.out.println(false);
+//                continue;
 //            }
-//            int pos = 0;
-//            int count = 0;
-//            Set<Integer> set = new HashSet<>();
-//            for (int i = 0; i < n; i++) {
-//                if(arr[i] <= k && !set.contains(arr[i])) {
-//                    set.add(arr[i]);
-//                    swap(arr, i, pos);
-//                    count += i - pos;
-//                    pos++;
-//                }
-//                if(pos == k) {
+//            Map<String, Integer> map = new HashMap<>();
+//            for(String str : strs) {
+//                map.put(str, map.getOrDefault(str, 0) + 1);
+//            }
+//
+//            boolean flag = true;
+//            for(Map.Entry<String, Integer> entry : map.entrySet()) {
+//                if(entry.getValue() != 5) {
+//                    flag = false;
 //                    break;
 //                }
 //            }
-//            System.out.println(count);
-//        }
-//    }
-
-    private static void swap(int[] arr, int i, int j) {
-        int temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-    }
-
-
-//    public static void main(String[] args) {
-//        Scanner scanner = new Scanner(System.in);
-//        while(scanner.hasNextInt()) {
-//            int a = scanner.nextInt();
-//            int b = scanner.nextInt();
-//            if(a - b > 1 || b == 0) {
-//                System.out.println(-1);
-//                continue;
-//            }
-//
-//            int[] arr = new int[a + b];
-//            int i = 0;
-//            while(a > 0 || b > 0) {
-//                if(a == 0) {
-//                    arr[i] = 2;
-//                    i++;
-//                    b--;
-//                    continue;
-//                }
-//
-//                if((i & 1) == 0) {
-//                    arr[i] = 1;
-//                    a--;
-//                }else {
-//                    arr[i] = 2;
-//                    b--;
-//                }
-//                i++;
-//            }
-////            for (int i = 0; i < arr.length; i++) {
-////                if(a == 0) {
-////                    arr[i] = 2;
-////                    continue;
-////                }
-////                if((i & 1) == 0) {
-////                    arr[i] = 1;
-////                    a--;
-////                }else {
-////                    arr[i] = 2;
-////                    b--;
-////                }
-////            }
-//            System.out.println(Arrays.toString(arr));
+//            System.out.println(flag);
 //        }
 //    }
 }
