@@ -3,62 +3,44 @@ package exam;
 import java.util.*;
 
 public class Main {
-//    public static void main(String[] args) {
-//        Scanner scanner = new Scanner(System.in);
-//        while(scanner.hasNextInt()) {
-//            int a = scanner.nextInt();
-//            int b = scanner.nextInt();
-//            int k = scanner.nextInt();
-//            int v = scanner.nextInt();
-//
-//            int count = 0;
-//            while(a > 0) {
-//                if(b > 0) {
-//                    int min = Math.min(k, b + 1);
-//                    a -= min * v;
-//                    b -= min - 1;
-//                }else {
-//                    a -= v;
-//                }
-//                count++;
-//            }
-//            System.out.println(count);
-//        }
-//    }
+    private static final int M = 10_0000_0007;
 
+    private static int count = 0;
+
+//    private static Set<Long> set = new HashSet<>();
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int n = Integer.parseInt(scanner.nextLine());
-        for (int i = 0; i < n; i++) {
-            Set<Character> set = new HashSet<>();
-            String s = scanner.nextLine();
-            String t = scanner.nextLine();
-            int len = s.length();
-            if(len > t.length()) {
-                System.out.println("NO");
-                continue;
+        int len = scanner.nextInt();
+        int k = scanner.nextInt();
+        scanner.nextLine();
+        String s = scanner.nextLine();
+        dfs(len, k, s, 0, 0);
+        System.out.println(count);
+    }
+
+    private static void dfs(int len, int k, String s, int pos, long num) {
+        if(pos == len) {
+            if(num != 0 && num % k == 0) {
+                count++;
             }
-            boolean flag = true;
-            for (int j = 0; j < t.length(); j++) {
-                if(j < len) {
-                    if(s.charAt(j) != t.charAt(j)) {
-                        flag = false;
-                        break;
-                    }
-                    set.add(s.charAt(j));
-                }else {
-                    char ch = t.charAt(j);
-                    if(!set.contains(ch)) {
-                        flag = false;
-                        break;
-                    }
-                }
-            }
-            if(flag) {
-                System.out.println("YES");
-            }else {
-                System.out.println("NO");
-            }
+            return;
         }
+        dfs(len, k, s, pos + 1, num);
+        long temp = num * 10 + (s.charAt(pos) - '0');
+        temp %= M;
+        dfs(len, k, s, pos + 1, temp);
     }
 }
+
+//public class Main {
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        int n = scanner.nextInt();
+//        int[] arr = new int[n];
+//        for (int i = 0; i < n; i++) {
+//            arr[i] = scanner.nextInt();
+//        }
+//        Arrays.sort(arr);
+//        System.out.println(Arrays.toString(arr));
+//    }
+//}
