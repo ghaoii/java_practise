@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class SortTest {
     private static ThreadLocalRandom random = ThreadLocalRandom.current();
     public static void main(String[] args) {
-        int n = 100000000;
+        int n = 10000000;
         //int[] arr = SortHelper.generateSortedArray(n, 10);// 生成一个近乎有序的数组
         int[] arr = SortHelper.generaRandomArray(n, 0, Integer.MAX_VALUE);// 获得一个乱序数组
 //        SortHelper.testSort(SortHelper.arrCopy(arr), "bubbleSort");
@@ -182,8 +182,7 @@ public class SortTest {
     }
 
     private static void quickSortInternal(int[] arr, int left, int right) {
-        if(right - left <= 15) {
-            insertionSort(arr, left, right);
+        if(left >= right) {
             return;
         }
         int pivot = partitionHoare(arr, left, right);
@@ -194,10 +193,9 @@ public class SortTest {
     private static int partition(int[] arr, int left, int right) {
         int randomIndex = random.nextInt(left, right + 1);
         swap(arr, left, randomIndex);
-        int val = arr[left];
         int j = left;
         for (int i = left + 1; i <= right; i++) {
-            if(arr[i] < val) {
+            if(arr[i] < arr[left]) {
                 swap(arr, j + 1, i);
                 j++;
             }
@@ -206,7 +204,7 @@ public class SortTest {
         return j;
     }
 
-    private static int partitionHoare(int[] arr, int left, int right) {
+    private static int partitionHoare(int[] arr, int left, int right){
         int randomIndex = random.nextInt(left, right + 1);
         swap(arr, left, randomIndex);
         int val = arr[left];
