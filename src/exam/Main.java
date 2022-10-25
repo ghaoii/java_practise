@@ -3,26 +3,34 @@ package exam;
 import java.util.*;
 public class Main {
     public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 2; i < 100000; i++) {
+            if(helper(i)) {
+                list.add(i);
+            }
+        }
         Scanner scanner = new Scanner(System.in);
         while(scanner.hasNextInt()) {
-            int n = scanner.nextInt();
-            if(n == 0) {
-                return;
-            }
-            if(n == 1) {
-                System.out.println(0);
-                continue;
-            }
+            int num = scanner.nextInt();
             int count = 0;
-            while(n > 3) {
-                if(n % 3 == 0) {
-                    n /= 3;
-                }else {
-                    n = n / 3 + 1;
+            for(int i : list) {
+                if(num % i == 0) {
+                    count++;
                 }
-                count++;
             }
-            System.out.println(++count);
+            System.out.println(count);
         }
+    }
+
+    private static boolean helper(int num) {
+        if(num == 2) {
+            return true;
+        }
+        for (int i = 3; i <= Math.sqrt(num); i += 2) {
+            if(num % i == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }
