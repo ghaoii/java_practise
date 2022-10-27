@@ -2,22 +2,29 @@ package offer;
 
 public class Off26_IsSubStructure {
     public boolean isSubStructure(TreeNode A, TreeNode B) {
-        if(A == null && B == null) {
-            return true;
-        }
-
-        if(A == null || B == null) {
+        if(B == null) {
             return false;
         }
+        boolean ret = false;
 
-        boolean flag = false;
-        if(A.val == B.val) {
-            flag = isSubStructure(A.left, B.left) && isSubStructure(A.right, B.right);
-        }
+        if(A.val == B.val)
+            ret = helper(A, B);
+        if(!ret)
+            ret = isSubStructure(A.left, B) || isSubStructure(A.right, B);
 
-        if(flag) {
+        return ret;
+    }
+
+    private boolean helper(TreeNode A, TreeNode B) {
+        if(B == null) {
             return true;
         }
-        return isSubStructure(A.left, B) || isSubStructure(A.right, B);
+        if(A == null) {
+            return false;
+        }
+        if(A.val == B.val) {
+            return helper(A.left, B.left) && helper(A.right, B.right);
+        }
+        return false;
     }
 }
