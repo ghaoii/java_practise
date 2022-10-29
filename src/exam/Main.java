@@ -3,31 +3,20 @@ package exam;
 import java.util.*;
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        while(scanner.hasNextInt()) {
-            int num = scanner.nextInt();
-            System.out.print(num + " = ");
-            helper(num);
-            System.out.println();
-        }
-    }
-
-    private static void helper(int num) {
-        if(num == 1) {
-            return;
-        }
-        for (int i = 2; i <= Math.sqrt(num); i++) {
-            if(num % i == 0) {
-                int next = num / i;
-                if(next == 1) {
-                    System.out.print(i);
-                }else {
-                    System.out.print(i + " * ");
-                }
-                helper(next);
-                return;
+        int prev = 0;
+        for (int i = 1; i <= 2005; i++) {
+            int num = i;
+            List<Integer> list = new LinkedList<>();
+            while(num > 0) {
+                list.add(num % 10);
+                num /= 10;
+            }
+            for (int j = list.size() - 1; j >= 0; j--) {
+                int n = prev * 10 + list.get(j);
+                prev = n % 9;
             }
         }
-        System.out.print(num);
+        System.out.println(prev);
     }
+
 }
