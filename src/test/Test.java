@@ -7,22 +7,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Test {
     public static void main(String[] args) {
-        final byte a = 1;
-        System.out.println(a);
-        Test test = new Test();
-        test.show("hello");
+        Integer i1 = 20;
+        int i2 = 20;
+        Integer i3 = Integer.valueOf(20);
+        Integer i4 = new Integer(20);
+        System.out.println(i2 == i4);
+        System.out.println(i2 == i3);
     }
 
-    public static void test() {
-        System.out.println("静态方法");
-    }
-
-    public void show(final String str) {
-        System.out.println(str);
-        System.out.println("准备调用静态方法……");
-        Test test = new Test();
-        test.test();
-    }
 
 }
 
