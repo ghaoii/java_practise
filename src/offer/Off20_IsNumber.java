@@ -1,72 +1,72 @@
 package offer;
 
 public class Off20_IsNumber {
+    private int i = 0;// 遍历元素时使用的全局变量
+
+    public static void main(String[] args) {
+        Off20_IsNumber test = new Off20_IsNumber();
+        System.out.println(test.isNumber("0.8"));
+    }
+
     public boolean isNumber(String s) {
-        s = s.trim();
-        if(s.length() == 0) {
+        if(s == null || s.length() == 0) {
             return false;
         }
-        if(s.charAt(0) == '+' || s.charAt(0) == '-') {
-            s = s.substring(1);
+
+        s = s.trim();
+
+        // 第一步，判断从当前i到方法执行结束之后的i之间是否存在整数
+        boolean isNum = isInteger(s);
+
+        // 到这里，i指向的元素要么到头了，要么指向非数字字符
+        if(i < s.length() && s.charAt(i) == '.') {
+            // 如果还没到头，且i指向的字符是小数点
+            // 那么可能有这么几种情况：1. or .1 or 1.2
+            // 即前面既可以有整数也可以没有，后面既可以有整数也可以没有，但是前后至少满足一种
+            // 因此通过 || 来更新isNum的状态，并且小数点之后我们判断的是无符号整数
+            i++;
+            isNum = isUnsignedInteger(s) || isNum;// 这里判断的顺序不能变，否则后面的部分就不扫描了
         }
-        boolean point = false;
-        boolean hasE = false;
-        for (int i = 0; i < s.length(); i++) {
+
+        // 判断完是否有小数后，再来判断是否存在e或E
+        if(i < s.length()) {
+            if((s.charAt(i) == 'e' || s.charAt(i) == 'E')) {
+                // 如果存在e或E，则要求前面必须满足整数或小数，且后面必须要有整数
+                // 所以我们用 && 来更新 isNum 的状态
+                i++;
+                isNum = isNum && isInteger(s);
+            }
+        }
+        // 只有当i走到头并且i之前都满足数值才返回true
+        return i == s.length() && isNum;
+    }
+
+    // 判断从i开始的无符号整数部分
+    private boolean isUnsignedInteger(String s) {
+        int start = i;
+        while(i < s.length()) {
             char c = s.charAt(i);
-            if(c == '+' || c == '-') {
-                if(i > 0 ) {
-                    char prev = s.charAt(i - 1);
-                    if(prev != 'e' && prev != 'E') {
-                        return false;
-                    }
-                }
-                if(i == s.length() - 1)
-                    return false;
-
-            }else if(c == '.' && !point && !hasE) {
-                point = true;
-                if(i == 0 && i == s.length() - 1)
-                    return false;
-
-                if(i == 0) {
-                    char next = s.charAt(i + 1);
-                    if(next < '0' || next > '9')
-                        return false;
-                }
-                if(i == s.length() - 1) {
-                    char prev = s.charAt(i - 1);
-                    if(prev < '0' || prev > '9')
-                        return false;
-                }
-
-                if(i == 0 || i == s.length() - 1)
-                    continue;
-
-                char prev = s.charAt(i - 1);
-                if(prev == '.')
-                    continue;
-                if(prev < '0' || prev > '9')
-                    return false;
-
-                char next = s.charAt(i + 1);
-                if(next != '.' && (next < '0' || next > '9'))
-                    return false;
-
-            }else if((c == 'E' || c == 'e') && !hasE) {
-                hasE = true;
-                if(i == 0 || i == s.length() - 1)
-                    return false;
-                char next = s.charAt(i + 1);
-                if(next == '+' || next == '-')
-                    continue;
-                if(next < '0' || next > '9')
-                    return false;
-            }else if(c >= '0' && c <= '9')
-                continue;
-            else
-                return false;
-
+            if(c < '0' || c > '9') {
+                // 如果i指向的字符不是数字
+                break;
+            }
+            // 如果i指向的字符是数字，就不断往后走
+            i++;
         }
-        return true;
+        // 如果i>start说明中间存在字符，否则说明i一开始指向的字符就不是数字字符
+        return i > start;
+    }
+
+    // 判断从i开始的整数部分
+    private boolean isInteger(String s) {
+        if(i == s.length()) {
+            return false;
+        }
+        char c = s.charAt(i);
+        // 先判断第一位是否有正负号
+        if(c == '+' || c == '-') {
+            i++;
+        }
+        return isUnsignedInteger(s);
     }
 }
