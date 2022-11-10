@@ -1,21 +1,18 @@
 package offer;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 public class Off32_LevelOrder {
-    public List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> ret = new ArrayList<>();
+    public int[] levelOrder(TreeNode root) {
         if(root == null) {
-            return ret;
+            return new int[0];
         }
-        Deque<TreeNode> queue = new ArrayDeque<>();
+
+        List<Integer> list = new ArrayList<>();
+        Deque<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         while(!queue.isEmpty()) {
             int size = queue.size();
-            List<Integer> list = new ArrayList<>();
             for (int i = 0; i < size; i++) {
                 TreeNode node = queue.poll();
                 list.add(node.val);
@@ -26,7 +23,10 @@ public class Off32_LevelOrder {
                     queue.offer(node.right);
                 }
             }
-            ret.add(list);
+        }
+        int[] ret = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            ret[i] = list.get(i);
         }
         return ret;
     }
