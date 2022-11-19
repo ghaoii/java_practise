@@ -1,6 +1,7 @@
 package offer;
 
 public class Off53_Search {
+
     public int search(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
